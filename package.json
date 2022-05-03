@@ -1,0 +1,28 @@
+{
+  "name": "pi-plate-recognizer",
+  "version": "1.0.0",
+  "description": "Software to open authorized vehicles to the garage.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danieljvsa/pi-plate-recognizer.git"
+  },
+  "author": "Daniel Sá",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danieljvsa/pi-plate-recognizer/issues"
+  },
+  "homepage": "https://github.com/danieljvsa/pi-plate-recognizer#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.1",
+    "node-red-contrib-plate-recognizer": "^1.0.3",
+    "nodemon": "^2.0.16",
+    "pi-camera": "^1.7.0"
+  }
+}
