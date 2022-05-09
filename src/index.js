@@ -32,7 +32,7 @@ app.get('/take-photo', async (req,res) => {
         fetch("https://api.platerecognizer.com/v1/plate-reader/", {
           method: "POST",
           headers: {
-            Authorization: "Token my-token******",
+            Authorization: PLATE_RECOGNIZER_TOKEN,
           },
           body: body,
         })
