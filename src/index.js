@@ -7,7 +7,7 @@ const cors = require('cors')
 const PiCamera = require('pi-camera');
 const gpio = require('onoff').Gpio;
 const pir = new gpio(12, 'in', 'both');
-const led = new Gpio(17, 'out');
+const led = new gpio(17, 'out');
 const app = express()
 
 
@@ -36,13 +36,17 @@ app.get('/take-photo', async (req,res) => {
           },
           body: body,
         })
-        .then((res) => console.log(res.results.plate))
+        .then((res) => {
+            console.log(res.results.plate)
+            return res.status(200).send(res.results.plate)
+        })
         .then((json) => console.log(json))
         .catch((err) => {
             console.log(err);
+            return res.status(400).send(err)
         });
     }).catch((error) => {
-        // Handle your error
+        return res.status(500).send(err)
     });
 })
 
