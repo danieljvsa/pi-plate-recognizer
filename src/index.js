@@ -8,6 +8,7 @@ const PiCamera = require('pi-camera');
 const gpio = require('onoff').Gpio;
 const pir = new gpio(12, 'in', 'both');
 const led = new gpio(17, 'out');
+const raspicam = require('raspicam')
 const app = express()
 
 
@@ -15,16 +16,20 @@ app.use(cors({origin: true, credentials: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
-const myCamera = new PiCamera({
-  mode: 'photo',
-  width: 640,
-  height: 480,
-  nopreview: true,
-});
+var filename = 'test.jpg';
+var opts = {
+    mode: 'photo',
+    output: filename,
+    t: 2
+};
+
+var camera = new raspicam(opts);
 
 app.get('/take-photo', async (req,res) => {
-    myCamera.snap().then((result) => {
-        let image_path = result;
+    camera.start();
+    
+        let image_path = filename;
+        
         let body = new FormData();
         body.append("upload", fs.createReadStream(image_path));
         // Or body.append('upload', base64Image);
@@ -36,18 +41,12 @@ app.get('/take-photo', async (req,res) => {
           },
           body: body,
         })
-        .then((res) => {
-            console.log(res.results.plate)
-            return res.status(200).send(res.results.plate)
-        })
+        .then((res) => console.log(res.results.plate))
         .then((json) => console.log(json))
         .catch((err) => {
             console.log(err);
-            return res.status(400).send(err)
         });
-    }).catch((error) => {
-        return res.status(500).send(err)
-    });
+    
 })
 
 app.get('/scan-area', async (req, res) => {
