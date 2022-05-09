@@ -21,8 +21,12 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.18.1",
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "node-fetch": "^3.2.4",
     "node-red-contrib-plate-recognizer": "^1.0.3",
     "nodemon": "^2.0.16",
+    "onoff": "^6.0.3",
     "pi-camera": "^1.7.0"
   }
 }
