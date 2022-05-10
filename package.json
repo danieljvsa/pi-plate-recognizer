@@ -1,6 +1,7 @@
 {
   "name": "pi-plate-recognizer",
   "version": "1.0.0",
+  "type": "module",
   "description": "Software to open authorized vehicles to the garage.",
   "main": "index.js",
   "scripts": {

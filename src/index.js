@@ -1,11 +1,14 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
+
 require('dotenv').config()
 
-const fetch = require("node-fetch")
+const fs = require('fs')
+import fetch from 'node-fetch';
 const FormData = require("form-data")
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const PiCamera = require('pi-camera');
 const gpio = require('onoff').Gpio;
 const pir = new gpio(12, 'in', 'both');
 const led = new gpio(17, 'out');
@@ -17,7 +20,13 @@ app.use(cors({origin: true, credentials: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
-var filename = 'test.jpg';
+const path = "./images"
+let today = new Date()
+let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
+
+var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+
+var filename = './images/' + date + '_' + time + '.jpg';
 var opts = {
     mode: 'photo',
     output: filename,
@@ -38,14 +47,18 @@ app.get('/take-photo', async (req,res) => {
         fetch("https://api.platerecognizer.com/v1/plate-reader/", {
           method: "POST",
           headers: {
-            Authorization: PLATE_RECOGNIZER_TOKEN,
+            Authorization: process.env.PLATE_RECOGNIZER_TOKEN,
           },
           body: body,
         })
-        .then((res) => console.log(res.results.plate))
+        .then((data) => {
+            console.log(data)
+            return res.status(200).send(data)
+        })
         .then((json) => console.log(json))
         .catch((err) => {
             console.log(err);
+            return res.status(400).send(err)
         });
     
 })
